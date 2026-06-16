@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guarita SRD 2.0 — Vídeo Demonstrativo</title>
+<style>
+:root{--brand:#1D9E75;--brand2:#34D399;--dark:#06392c;--dark2:#0F6E56;--mint:#9FE1CB;--ink:#E1F5EE}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#000;font-family:'Segoe UI',system-ui,-apple-system,sans-serif;overflow:hidden}
+/* Palco 16:9 centralizado */
+#palco{position:fixed;inset:0}
+#tela{position:absolute;inset:0;width:100%;height:100%;background:radial-gradient(120% 120% at 70% 12%,#138a64 0%,#0c5a44 45%,#06392c 100%);overflow:hidden;color:var(--ink)}
+.glow{position:absolute;border-radius:50%;filter:blur(60px);opacity:.5;pointer-events:none}
+.g1{width:40%;height:60%;right:-8%;top:-15%;background:#1fd18f33}
+.g2{width:35%;height:50%;left:-10%;bottom:-15%;background:#0f6e5644}
+/* cena */
+.cena{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:6% 9%}
+.cena.on{display:flex}
+.kicker{font-size:1.5vw;letter-spacing:.35em;text-transform:uppercase;color:var(--mint);font-weight:700;margin-bottom:2.2vh;opacity:0;animation:up .7s .05s forwards}
+.titulo{font-size:5.2vw;line-height:1.05;font-weight:800;letter-spacing:-.02em;color:#fff;opacity:0;animation:up .8s .18s forwards;text-shadow:0 4px 30px rgba(0,0,0,.25)}
+.titulo b{color:var(--brand2)}
+.sub{font-size:2.2vw;margin-top:2.6vh;max-width:80%;color:var(--mint);font-weight:400;line-height:1.4;opacity:0;animation:up .8s .42s forwards}
+.visual{margin-top:4.2vh;opacity:0;animation:pop .9s .5s forwards}
+@keyframes up{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+/* logo */
+.logo{display:flex;align-items:center;gap:2vw;opacity:0;animation:up .8s .15s forwards}
+.logo .mark{width:9vw;height:9vw;border-radius:2vw;background:linear-gradient(135deg,#1D9E75,#0F6E56);display:flex;align-items:center;justify-content:center;box-shadow:0 1.5vw 4vw rgba(0,0,0,.35);animation:float 4s ease-in-out infinite}
+.logo .mark svg{width:5.5vw;height:5.5vw}
+.logo .nome{text-align:left}
+.logo .nome .l1{font-size:5.5vw;font-weight:800;color:#fff;line-height:1}
+.logo .nome .l2{font-size:1.7vw;letter-spacing:.3em;color:var(--mint);text-transform:uppercase;margin-top:.6vh}
+/* mockups */
+.card{background:rgba(255,255,255,.97);color:#16241f;border-radius:1.4vw;padding:2vw 2.2vw;box-shadow:0 2vw 5vw rgba(0,0,0,.35);text-align:left}
+.row{display:flex;gap:2vw;align-items:center}
+.ava{width:6vw;height:6vw;border-radius:1vw;background:linear-gradient(135deg,#9FE1CB,#1D9E75);display:flex;align-items:center;justify-content:center;font-size:3vw}
+.chip{display:inline-block;font-size:1.2vw;font-weight:700;padding:.5vw 1.2vw;border-radius:2vw;background:#E1F5EE;color:#0F6E56}
+.kpis{display:flex;gap:1.4vw}
+.kpi{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:1.2vw;padding:1.6vw 2.2vw;text-align:center;min-width:11vw}
+.kpi .n{font-size:3.4vw;font-weight:800;color:#fff}
+.kpi .t{font-size:1.2vw;color:var(--mint);margin-top:.4vh}
+/* WhatsApp */
+.wa{background:#075E54;border-radius:1.4vw;padding:1.6vw;width:34vw;box-shadow:0 2vw 5vw rgba(0,0,0,.35)}
+.wa .bolha{background:#DCF8C6;color:#111;border-radius:1vw;padding:1.4vw 1.6vw;font-size:1.5vw;line-height:1.5;position:relative}
+.wa .hora{display:block;text-align:right;font-size:1vw;color:#4a7;margin-top:.6vh}
+/* phone */
+.phone{width:20vw;height:40vw;border-radius:3.2vw;background:#0c2a22;border:.7vw solid #0a3a2c;box-shadow:0 2.5vw 6vw rgba(0,0,0,.45);overflow:hidden;display:flex;flex-direction:column;animation:float 5s ease-in-out infinite}
+.phone .ph-top{background:#0F6E56;color:#fff;padding:2.4vw 1.6vw 1.4vw;font-size:1.5vw;font-weight:700}
+.phone .ph-top small{display:block;font-weight:400;color:#9FE1CB;font-size:1.1vw}
+.phone .ph-body{flex:1;background:#F4F9F7;padding:1.4vw}
+.ph-item{background:#fff;border:1px solid #e4eae8;border-radius:1.2vw;padding:1.2vw;margin-bottom:1vw;font-size:1.2vw;color:#16241f}
+.ph-item b{display:block;font-size:1.3vw}
+/* badges row */
+.badges{display:flex;flex-wrap:wrap;gap:1.4vw;justify-content:center;max-width:80%}
+.badge{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:5vw;padding:1.3vw 2.2vw;font-size:1.6vw;color:#fff;display:flex;align-items:center;gap:1vw}
+.badge .e{font-size:2vw}
+/* feature grid */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.6vw;max-width:84%}
+.feat{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:1.4vw;padding:2vw 1.6vw;text-align:center}
+.feat .e{font-size:3.4vw}
+.feat .t{font-size:1.5vw;color:#fff;font-weight:600;margin-top:1vh}
+/* CTA */
+.cta-btn{margin-top:4vh;font-size:2vw;font-weight:700;color:#06392c;background:var(--brand2);padding:1.6vw 3.4vw;border-radius:5vw;box-shadow:0 1.5vw 4vw rgba(52,211,153,.4);opacity:0;animation:pop .8s .8s forwards}
+.contato{margin-top:2.4vh;font-size:1.6vw;color:var(--mint);opacity:0;animation:up .8s 1s forwards}
+/* HUD */
+#progresso{position:absolute;top:0;left:0;height:.5vh;background:linear-gradient(90deg,#34D399,#9FE1CB);width:0;transition:width .25s linear;z-index:5}
+#dots{position:absolute;bottom:2.4vh;left:50%;transform:translateX(-50%);display:flex;gap:1vw;z-index:5}
+#dots i{width:1vw;height:1vw;border-radius:50%;background:rgba(255,255,255,.25);transition:all .3s}
+#dots i.on{background:var(--brand2);width:2.6vw;border-radius:1vw}
+.marca{position:absolute;bottom:2.2vh;right:3vw;font-size:1.2vw;color:rgba(255,255,255,.5);letter-spacing:.1em;z-index:5}
+/* capa / play */
+#capa{position:absolute;inset:0;z-index:20;background:radial-gradient(120% 120% at 70% 12%,#138a64,#06392c);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:5%}
+#capa h1{font-size:5vw;color:#fff;font-weight:800;margin-bottom:1.5vh}
+#capa p{font-size:2vw;color:var(--mint);margin-bottom:5vh;max-width:70%}
+#play{width:11vw;height:11vw;border-radius:50%;background:var(--brand2);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2vw 5vw rgba(52,211,153,.45);transition:transform .2s;animation:float 3.5s ease-in-out infinite}
+#play:hover{transform:scale(1.07)}
+#play svg{width:5vw;height:5vw;margin-left:1vw;fill:#06392c}
+.opt{margin-top:4vh;font-size:1.5vw;color:rgba(255,255,255,.7)}
+.opt label{cursor:pointer}
+#refazer{position:absolute;bottom:2.4vh;left:3vw;z-index:6;display:none;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:3vw;padding:1vw 2vw;font-size:1.3vw;cursor:pointer}
+</style>
+</head>
+<body>
+<div id="palco"><div id="tela">
+  <div class="glow g1"></div><div class="glow g2"></div>
+  <div id="progresso"></div>
+
+  <!-- CAPA -->
+  <div id="capa">
+    <h1>Guarita <b style="color:#34D399">SRD 2.0</b></h1>
+    <p>Vídeo demonstrativo — Sistema de Portaria para Condomínios</p>
+    <button id="play" onclick="iniciar()" aria-label="Reproduzir"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+    <div class="opt"><label><input type="checkbox" id="comVoz" checked> Reproduzir com narração em voz</label></div>
+  </div>
+
+  <!-- CENAS -->
+  <div class="cena" data-narr="Sua portaria ainda anota visitantes em um caderno de papel?">
+    <div class="kicker">A portaria do seu condomínio</div>
+    <div class="titulo">Ainda no <b>papel</b>?</div>
+    <div class="sub">Visitas sem registro. Encomendas perdidas. Morador sem aviso.</div>
+    <div class="visual" style="font-size:9vw">📒➡️💻</div>
+  </div>
+
+  <div class="cena" data-narr="Conheça o Guarita SRD 2.0: o sistema completo para a portaria do seu condomínio.">
+    <div class="logo">
+      <div class="mark"><svg viewBox="0 0 24 24" fill="#E1F5EE"><path d="M12 3 3 9v2h2v8h5v-5h4v5h5v-8h2V9z"/></svg></div>
+      <div class="nome"><div class="l1">Guarita <span style="color:#34D399">SRD 2.0</span></div><div class="l2">Sistema de Portaria</div></div>
+    </div>
+    <div class="sub" style="margin-top:5vh">Tudo o que a portaria precisa, em um só lugar.</div>
+  </div>
+
+  <div class="cena" data-narr="Registre visitantes e prestadores com foto pela câmera, dados do veículo, e crachá impresso na hora.">
+    <div class="kicker">Visitantes e prestadores</div>
+    <div class="titulo">Registro com <b>foto</b> e crachá</div>
+    <div class="visual">
+      <div class="card" style="width:40vw">
+        <div class="row"><div class="ava">👤</div><div><div style="font-size:2vw;font-weight:700">João da Silva</div><div style="font-size:1.3vw;color:#5a7269">🚗 ABC1D23 · Apt 142 · autorizado por Maria</div><div style="margin-top:1vh"><span class="chip">📷 Foto</span> <span class="chip">🖨 Crachá</span> <span class="chip">✅ LGPD</span></div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cena" data-narr="A cada encomenda ou visita, o morador é avisado automaticamente no WhatsApp. Sem nenhum custo por mensagem.">
+    <div class="kicker">Avisos automáticos</div>
+    <div class="titulo">Direto no <b>WhatsApp</b></div>
+    <div class="sub">Sem custo por mensagem</div>
+    <div class="visual">
+      <div class="wa"><div class="bolha">📦 <b>Olá, Maria!</b> Você tem uma encomenda da Amazon aguardando na portaria.<span class="hora">14:32 ✓✓</span></div></div>
+    </div>
+  </div>
+
+  <div class="cena" data-narr="Controle as reservas da churrasqueira e dos salões com calendário, e registre tudo no livro digital de ocorrências.">
+    <div class="kicker">Reservas e ocorrências</div>
+    <div class="titulo">Espaços e <b>livro digital</b></div>
+    <div class="visual badges">
+      <div class="badge"><span class="e">🔥</span> Churrasqueira</div>
+      <div class="badge"><span class="e">🎉</span> Salão de festas</div>
+      <div class="badge"><span class="e">📅</span> Calendário</div>
+      <div class="badge"><span class="e">📋</span> Ocorrências</div>
+    </div>
+  </div>
+
+  <div class="cena" data-narr="E o morador acompanha as encomendas e pré-autoriza visitas pelo próprio celular, de qualquer lugar.">
+    <div class="kicker">App do morador</div>
+    <div class="titulo">No <b>celular</b> do morador</div>
+    <div class="visual">
+      <div class="phone">
+        <div class="ph-top">Portaria — Morador<small>Apt 142 · Maria</small></div>
+        <div class="ph-body">
+          <div class="ph-item"><b>📦 Amazon</b>Aguardando retirada</div>
+          <div class="ph-item"><b>✅ Pré-autorizar visita</b>Avise quem vai te visitar</div>
+          <div class="ph-item"><b>🚶 Visitas recebidas</b>Histórico do apartamento</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cena" data-narr="Tudo funciona no computador da portaria. Sem mensalidade de nuvem, com seus dados protegidos pela LGPD, backup automático, e acesso por usuário com trilha de auditoria.">
+    <div class="kicker">Por que escolher</div>
+    <div class="titulo">Sem mensalidade. <b>Seus dados, seus.</b></div>
+    <div class="visual grid">
+      <div class="feat"><div class="e">☁️🚫</div><div class="t">Sem nuvem,<br>sem mensalidade</div></div>
+      <div class="feat"><div class="e">🔒</div><div class="t">Dados locais<br>(LGPD)</div></div>
+      <div class="feat"><div class="e">💾</div><div class="t">Backup<br>automático</div></div>
+      <div class="feat"><div class="e">👥</div><div class="t">Acesso por<br>usuário</div></div>
+      <div class="feat"><div class="e">📝</div><div class="t">Trilha de<br>auditoria</div></div>
+      <div class="feat"><div class="e">💬</div><div class="t">WhatsApp<br>incluído</div></div>
+    </div>
+  </div>
+
+  <div class="cena" data-narr="Ideal para condomínios, administradoras e empresas de segurança. E pode levar a sua marca.">
+    <div class="kicker">Para quem é</div>
+    <div class="titulo">Pronto para <b>revenda</b></div>
+    <div class="visual badges">
+      <div class="badge"><span class="e">🏢</span> Condomínios</div>
+      <div class="badge"><span class="e">📊</span> Administradoras</div>
+      <div class="badge"><span class="e">🛡️</span> Empresas de segurança</div>
+      <div class="badge"><span class="e">🏷️</span> Marca própria</div>
+    </div>
+  </div>
+
+  <div class="cena" data-narr="Guarita SRD 2.0. Modernize a sua portaria. Peça agora uma demonstração.">
+    <div class="logo" style="animation:up .8s forwards">
+      <div class="mark"><svg viewBox="0 0 24 24" fill="#E1F5EE"><path d="M12 3 3 9v2h2v8h5v-5h4v5h5v-8h2V9z"/></svg></div>
+      <div class="nome"><div class="l1">Guarita <span style="color:#34D399">SRD 2.0</span></div><div class="l2">Modernize sua portaria</div></div>
+    </div>
+    <div class="cta-btn">📞 Peça uma demonstração</div>
+    <!-- EDITE seu contato aqui: -->
+    <div class="contato">SRD Segurança Eletrônica · (00) 00000-0000 · seu-site.com.br</div>
+  </div>
+
+  <button id="refazer" onclick="location.reload()">↺ Assistir de novo</button>
+  <div id="dots"></div>
+  <div class="marca">SRD Segurança Eletrônica</div>
+</div></div>
+
+<script>
+const cenas=[...document.querySelectorAll('.cena')];
+const dots=document.getElementById('dots');
+cenas.forEach(()=>{const i=document.createElement('i');dots.appendChild(i);});
+const pontos=[...dots.children];
+let idx=-1, voz=true, vozPt=null;
+
+// carrega voz pt-BR
+function pegarVoz(){const vs=speechSynthesis.getVoices();vozPt=vs.find(v=>/pt[-_]BR/i.test(v.lang))||vs.find(v=>/^pt/i.test(v.lang))||null;}
+if('speechSynthesis' in window){pegarVoz();speechSynthesis.onvoiceschanged=pegarVoz;}
+
+function iniciar(){
+  voz=document.getElementById('comVoz').checked && ('speechSynthesis' in window);
+  document.getElementById('capa').style.display='none';
+  document.getElementById('refazer').style.display='block';
+  proxima();
+}
+function estimaMs(txt){return Math.max(2600, txt.split(/\s+/).length*420);}
+function proxima(){
+  idx++;
+  if(idx>=cenas.length){ try{speechSynthesis.cancel();}catch(e){} return; }
+  cenas.forEach((c,i)=>c.classList.toggle('on',i===idx));
+  pontos.forEach((p,i)=>p.classList.toggle('on',i===idx));
+  document.getElementById('progresso').style.width=((idx+1)/cenas.length*100)+'%';
+  // reinicia animações da cena
+  const cena=cenas[idx];cena.querySelectorAll('.kicker,.titulo,.sub,.visual,.logo,.cta-btn,.contato').forEach(el=>{el.style.animation='none';el.offsetHeight;el.style.animation='';});
+  const txt=cena.dataset.narr||'';
+  if(voz){
+    try{speechSynthesis.cancel();}catch(e){}
+    const u=new SpeechSynthesisUtterance(txt);
+    u.lang='pt-BR';if(vozPt)u.voice=vozPt;u.rate=1.0;u.pitch=1.02;
+    let avancou=false;const ir=()=>{if(!avancou){avancou=true;setTimeout(proxima,650);}};
+    u.onend=ir;u.onerror=ir;
+    // trava de segurança caso onend não dispare
+    setTimeout(ir, estimaMs(txt)+2500);
+    speechSynthesis.speak(u);
+  } else {
+    setTimeout(proxima, estimaMs(txt));
+  }
+}
+// permite avançar no clique/seta (útil para gravar manualmente)
+document.getElementById('tela').addEventListener('click',e=>{if(document.getElementById('capa').style.display==='none'){/* clique avança */ try{speechSynthesis.cancel();}catch(_){}}});
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'){try{speechSynthesis.cancel();}catch(_){}}});
+</script>
+</body>
+</html>
